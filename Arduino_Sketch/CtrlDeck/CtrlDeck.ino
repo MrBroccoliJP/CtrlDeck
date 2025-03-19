@@ -1,10 +1,21 @@
+/*
+ * CtrlDeck - Media & Shortcut control module 
+ * Copyright (c) 2025 João Fernandes
+ * 
+ * This work is licensed under the Creative Commons Attribution-NonCommercial 
+ * 4.0 International License. To view a copy of this license, visit:
+ * http://creativecommons.org/licenses/by-nc/4.0/
+ */
+
+const char version = 'V0.4';
+
 #define encoderClk 16
 #define encoderD 14
 #define encoderSW 15
 
-#define RGB_R 21
-#define RGB_G 20
-#define RGB_B 19
+#define LED_R 21
+#define LED_G 20
+#define LED_B 19
 
 #define button_1 6
 #define button_2 3
@@ -27,9 +38,9 @@ unsigned long lastButtonPress = 0;
 short int mode = 0;
 
 void setup() {
-  pinMode(RGB_R, OUTPUT);
-  pinMode(RGB_G, OUTPUT);
-  pinMode(RGB_B, OUTPUT);
+  pinMode(LED_R, OUTPUT);
+  pinMode(LED_G, OUTPUT);
+  pinMode(LED_B, OUTPUT);
 
 
   pinMode(encoderClk, INPUT);
@@ -53,9 +64,9 @@ void setup() {
   if (digitalRead(button_1) == LOW) {
     Serial.println("Programing mode");
     while (digitalRead(button_2) == HIGH) {
-      digitalWrite(RGB_R, HIGH);
+      digitalWrite(LED_R, HIGH);
       delay(500);
-      digitalWrite(RGB_R, LOW);
+      digitalWrite(LED_R, LOW);
       delay(500);
     }
   }
@@ -64,23 +75,55 @@ void setup() {
 void loop() {
 
   checkEncoderPosition();
-  //checkButtons();
 
-  if(mode == 1){
+  if (mode == 1) {
+    digitalWrite(LED_R, HIGH);
+    digitalWrite(LED_G, LOW);
+    digitalWrite(LED_B, LOW);
+    while (mode == 1) {
 
-  }
-  else{
-    switch(checkButtons()) {
-      case 1:
-        Keyboard.write(KEY_A);
-      break;
+      switch (checkButtons()) {
+        case 1:
+          mode = 0;
+          break;
+      }
     }
-      
+  } else {
+    digitalWrite(LED_R, HIGH);
+    digitalWrite(LED_G, HIGH);
+    digitalWrite(LED_B, HIGH);
+    {
+      while (mode != 1) {
+        switch (checkButtons()) {
+          case 1:
+            mode = 1;
+            break;
+          case 2:
+            Keyboard.write(KEY_B);
+            break;
+          case 3:
+            Keyboard.write(KEY_C);
+            break;
+          case 4:
+            Keyboard.write(KEY_D);
+            break;
+          case 5:
+            Keyboard.write(KEY_E);
+            break;
+          case 6:
+            Keyboard.write(KEY_F);
+            break;
+          case 7:
+            Keyboard.write(KEY_G);
+            break;
+          case 8:
+            Keyboard.write(KEY_H);
+            break;
+        }
+      }
+    }
   }
-
 }
-
-
 
 void checkEncoderPosition() {
   currentStateClk = digitalRead(encoderClk);
@@ -119,7 +162,6 @@ int checkButtons() {
       lastButtonPress = millis();
       return i;
     }
-   
   }
   return 0;
 }
