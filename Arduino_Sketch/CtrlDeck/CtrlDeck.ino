@@ -9,7 +9,7 @@
 
 //useful documentation: https://docs.arduino.cc/language-reference/en/functions/usb/Keyboard/keyboardModifiers/
 
-const char version = 'V0.5';
+const char version = 'V0.6.1';
 
 #define encoderClk 16
 #define encoderD 14
@@ -27,9 +27,6 @@ const char version = 'V0.5';
 #define button_6 5
 #define button_7 7
 #define button_8 9
-
-
-
 
 #include "HID-Project.h"
 
@@ -62,7 +59,6 @@ void setup() {
 
   Serial.begin(9600);
 
-
   if (digitalRead(button_1) == LOW) {
     Serial.println("Programing mode");
     while (digitalRead(button_2) == HIGH) {
@@ -72,46 +68,34 @@ void setup() {
       delay(500);
     }
   }
-  USBDevice.isSuspended();
+  checkIfUsbDeviceIsAsleep();
 }
 
 
 void loop() {
 
-  if (wakeFromSleep) {
-    for (int i = 0; i < 5; i++) {
-      digitalWrite(LED_R, HIGH);
-      digitalWrite(LED_G, HIGH);
-      digitalWrite(LED_B, HIGH);
-      delay(250);
-      digitalWrite(LED_R, LOW);
-      digitalWrite(LED_G, LOW);
-      digitalWrite(LED_B, LOW);
-      delay(250);
-    }
-    wakeFromSleep = false;
-  }
+  if (mode == 1) {
 
-  else if (mode == 1) {
     digitalWrite(LED_R, HIGH);
     digitalWrite(LED_G, LOW);
     digitalWrite(LED_B, LOW);
     while (mode == 1) {
-      //checkEncoderPosition();
+      checkIfUsbDeviceIsAsleep();
+
       switch (checkButtons()) {
         case 1:
           mode = 0;
           break;
       }
-
-      checkIfUsbDeviceIsAsleep();
     }
   } else {
+
     digitalWrite(LED_R, HIGH);
     digitalWrite(LED_G, HIGH);
     digitalWrite(LED_B, HIGH);
     {
       while (mode != 1) {
+
         switch (checkEncoderPosition()) {
           case 1:
             Consumer.write(MEDIA_VOLUME_UP);
@@ -162,12 +146,12 @@ int checkEncoderPosition() {
   currentStateClk = digitalRead(encoderClk);
   if (currentStateClk != lastStateClk) {
     if (digitalRead(encoderD) != currentStateClk) {
-     
+
       lastStateClk = currentStateClk;
       return 1;
 
     } else {
-      
+
       lastStateClk = currentStateClk;
       return -1;
     }
@@ -213,7 +197,39 @@ void checkIfUsbDeviceIsAsleep() {
     digitalWrite(LED_B, LOW);
     while (USBDevice.isSuspended() == true) {
       delay(1000);
-      USBDevice.isSuspended();
+    }
+    wakeFromSleepToggle();
+  }
+}
+
+void wakeFromSleepToggle() {
+  bool r;
+  bool g;
+  bool b;
+  if (wakeFromSleep) {
+    if (mode == 1) {
+      r = 1;
+      g = 0;
+      b = 0;
+
+    } else {
+      r = 1;
+      g = 1;
+      b = 1;
+    }
+
+    for(int i = 0; i < 3; i++){
+      ledcontrol(0,0,0);
+      delay(200);
+      ledcontrol(r,g,b);
+      delay(200);
     }
   }
+}
+
+
+void ledcontrol(bool r, bool g, bool b) {
+  digitalWrite(LED_R, r);
+  digitalWrite(LED_G, g);
+  digitalWrite(LED_B, b);
 }
