@@ -29,13 +29,20 @@ const char version = 'V0.6.1';
 #define button_8 9
 
 #include "HID-Project.h"
+#include "LowPower.h"
 
 int currentStateClk;
 int lastStateClk;
 unsigned long lastButtonPress = 0;
 bool wakeFromSleep = true;
 
+unsigned long int targetTime = 0;
+unsigned long int lastToggleTime = 0;
+bool toggle = 1;
+
 short int mode = 0;
+
+short int microMode = 0;
 
 void setup() {
   pinMode(LED_R, OUTPUT);
@@ -68,6 +75,8 @@ void setup() {
       delay(500);
     }
   }
+  Consumer.begin();
+  Keyboard.begin();
   checkIfUsbDeviceIsAsleep();
 }
 
@@ -76,9 +85,7 @@ void loop() {
 
   if (mode == 1) {
 
-    digitalWrite(LED_R, HIGH);
-    digitalWrite(LED_G, LOW);
-    digitalWrite(LED_B, LOW);
+    ledControl(1, 0, 0);
     while (mode == 1) {
       checkIfUsbDeviceIsAsleep();
 
@@ -90,18 +97,24 @@ void loop() {
     }
   } else {
 
-    digitalWrite(LED_R, HIGH);
-    digitalWrite(LED_G, HIGH);
-    digitalWrite(LED_B, HIGH);
+    ledControl(1, 1, 1);
     {
       while (mode != 1) {
 
         switch (checkEncoderPosition()) {
           case 1:
-            Consumer.write(MEDIA_VOLUME_UP);
+            if (microMode = 1) {
+              
+            } else {
+              Consumer.write(MEDIA_VOLUME_UP);
+            }
             break;
           case -1:
-            Consumer.write(MEDIA_VOLUME_DOWN);
+            if (microMode = 1) {
+
+            } else {
+              Consumer.write(MEDIA_VOLUME_DOWN);
+            }
             break;
         };
 
@@ -112,6 +125,20 @@ void loop() {
             break;
           case 2:
             //reserved for micro-mode switching
+            targetTime = millis() + 5000;
+            while (millis() < targetTime) {
+
+              if (millis() - lastToggleTime >= 125) {
+                if (toggle) {
+                  ledControl(1, 0, 1);
+                  toggle = 0;
+                } else {
+                  ledControl(1, 1, 1);
+                  toggle = 1;
+                }
+                lastToggleTime = millis();
+              }
+            }
             break;
           case 3:
             System.write(SYSTEM_SLEEP);
@@ -120,10 +147,17 @@ void loop() {
             System.write(SYSTEM_POWER_DOWN);
             break;
           case 5:
-            Keyboard.write(KEY_E);
+            Keyboard.press(KEY_LEFT_CTRL);
+            Keyboard.press(KEY_TAB);
+            delay(50);
+            Keyboard.releaseAll();
             break;
           case 6:
-            Keyboard.write(KEY_F);
+            Keyboard.press(KEY_LEFT_CTRL);
+            Keyboard.press(KEY_LEFT_ALT);
+            Keyboard.press(KEY_T);
+            delay(50);
+            Keyboard.releaseAll();
             break;
           case 7:
             Keyboard.write(KEY_G);
@@ -171,9 +205,9 @@ int checkButtons() {
                                         : (i == 7) ? button_7
                                                    : button_8;
     if (digitalRead(buttonPin) == LOW && millis() - lastButtonPress > 200) {
-      Serial.print("Button");
-      Serial.print(i);
-      Serial.println(" Pressed");
+      //Serial.print("Button");
+      //Serial.print(i);
+      //Serial.println(" Pressed");
       lastButtonPress = millis();
       return i;
     }
@@ -181,7 +215,7 @@ int checkButtons() {
 
   //encoder button
   if (digitalRead(encoderSW) == LOW && millis() - lastButtonPress > 200) {
-    Serial.println("encoder Button Pressed");
+    //Serial.println("encoder Button Pressed");
     lastButtonPress = millis();
     return 9;
   }
@@ -195,12 +229,16 @@ void checkIfUsbDeviceIsAsleep() {
     digitalWrite(LED_R, LOW);
     digitalWrite(LED_G, LOW);
     digitalWrite(LED_B, LOW);
+
     while (USBDevice.isSuspended() == true) {
-      delay(1000);
+      LowPower.idle(SLEEP_4S, ADC_OFF, TIMER4_OFF, TIMER3_OFF, TIMER1_OFF,
+                    TIMER0_OFF, SPI_OFF, USART1_OFF, TWI_OFF, USB_ON);
     }
+
     wakeFromSleepToggle();
   }
 }
+
 
 void wakeFromSleepToggle() {
   bool r;
@@ -218,17 +256,16 @@ void wakeFromSleepToggle() {
       b = 1;
     }
 
-    for(int i = 0; i < 3; i++){
-      ledcontrol(0,0,0);
+    for (int i = 0; i < 3; i++) {
+      ledControl(0, 0, 0);
       delay(200);
-      ledcontrol(r,g,b);
+      ledControl(r, g, b);
       delay(200);
     }
   }
 }
 
-
-void ledcontrol(bool r, bool g, bool b) {
+void ledControl(bool r, bool g, bool b) {
   digitalWrite(LED_R, r);
   digitalWrite(LED_G, g);
   digitalWrite(LED_B, b);
