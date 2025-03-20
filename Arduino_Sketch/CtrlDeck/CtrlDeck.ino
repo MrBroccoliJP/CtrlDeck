@@ -130,10 +130,10 @@ void loop() {
             //reserved for micro-mode switching
             break;
           case 3:
-            Consumer.write(CONSUMER_SLEEP);
+            System.write(SYSTEM_SLEEP);
             break;
           case 4:
-            Consumer.write(CONSUMER_POWER);
+            System.write(SYSTEM_POWER_DOWN);
             break;
           case 5:
             Keyboard.write(KEY_E);
@@ -207,6 +207,7 @@ int checkButtons() {
 
 void checkIfUsbDeviceIsAsleep() {
   if (USBDevice.isSuspended() == true) {
+    wakeFromSleep = true;
     digitalWrite(LED_R, LOW);
     digitalWrite(LED_G, LOW);
     digitalWrite(LED_B, LOW);
