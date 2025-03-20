@@ -7,7 +7,7 @@
  * http://creativecommons.org/licenses/by-nc/4.0/
  */
 
-const char version = 'V0.4';
+const char version = 'V0.5';
 
 #define encoderClk 16
 #define encoderD 14
@@ -34,6 +34,7 @@ int counter = 0;
 int currentStateClk;
 int lastStateClk;
 unsigned long lastButtonPress = 0;
+bool wakeFromSleep = true;
 
 short int mode = 0;
 
@@ -41,7 +42,6 @@ void setup() {
   pinMode(LED_R, OUTPUT);
   pinMode(LED_G, OUTPUT);
   pinMode(LED_B, OUTPUT);
-
 
   pinMode(encoderClk, INPUT);
   pinMode(encoderD, INPUT);
@@ -70,23 +70,39 @@ void setup() {
       delay(500);
     }
   }
+  USBDevice.isSuspended();
 }
+
 
 void loop() {
 
-  checkEncoderPosition();
+  if (wakeFromSleep) {
+    for (int i = 0; i < 5; i++) {
+      digitalWrite(LED_R, HIGH);
+      digitalWrite(LED_G, HIGH);
+      digitalWrite(LED_B, HIGH);
+      delay(250);
+      digitalWrite(LED_R, LOW);
+      digitalWrite(LED_G, LOW);
+      digitalWrite(LED_B, LOW);
+      delay(250);
+    }
+    wakeFromSleep = false;
+  }
 
-  if (mode == 1) {
+  else if (mode == 1) {
     digitalWrite(LED_R, HIGH);
     digitalWrite(LED_G, LOW);
     digitalWrite(LED_B, LOW);
     while (mode == 1) {
-
+      checkEncoderPosition();
       switch (checkButtons()) {
         case 1:
           mode = 0;
           break;
       }
+
+      checkIfUsbDeviceIsAsleep();
     }
   } else {
     digitalWrite(LED_R, HIGH);
@@ -94,6 +110,7 @@ void loop() {
     digitalWrite(LED_B, HIGH);
     {
       while (mode != 1) {
+        checkEncoderPosition();
         switch (checkButtons()) {
           case 1:
             mode = 1;
@@ -120,6 +137,8 @@ void loop() {
             Keyboard.write(KEY_H);
             break;
         }
+
+        checkIfUsbDeviceIsAsleep();
       }
     }
   }
@@ -164,4 +183,16 @@ int checkButtons() {
     }
   }
   return 0;
+}
+
+void checkIfUsbDeviceIsAsleep() {
+  if (USBDevice.isSuspended() == true) {
+    digitalWrite(LED_R, LOW);
+    digitalWrite(LED_G, LOW);
+    digitalWrite(LED_B, LOW);
+    while (USBDevice.isSuspended() == true) {
+      delay(1000);
+      USBDevice.isSuspended();
+    }
+  }
 }
