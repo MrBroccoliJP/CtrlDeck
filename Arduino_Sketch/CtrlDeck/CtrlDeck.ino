@@ -7,6 +7,8 @@
  * http://creativecommons.org/licenses/by-nc/4.0/
  */
 
+//useful documentation: https://docs.arduino.cc/language-reference/en/functions/usb/Keyboard/keyboardModifiers/
+
 const char version = 'V0.5';
 
 #define encoderClk 16
@@ -30,7 +32,7 @@ const char version = 'V0.5';
 
 
 #include "HID-Project.h"
-int counter = 0;
+
 int currentStateClk;
 int lastStateClk;
 unsigned long lastButtonPress = 0;
@@ -95,7 +97,7 @@ void loop() {
     digitalWrite(LED_G, LOW);
     digitalWrite(LED_B, LOW);
     while (mode == 1) {
-      checkEncoderPosition();
+      //checkEncoderPosition();
       switch (checkButtons()) {
         case 1:
           mode = 0;
@@ -110,19 +112,28 @@ void loop() {
     digitalWrite(LED_B, HIGH);
     {
       while (mode != 1) {
-        checkEncoderPosition();
+        switch (checkEncoderPosition()) {
+          case 1:
+            Consumer.write(MEDIA_VOLUME_UP);
+            break;
+          case -1:
+            Consumer.write(MEDIA_VOLUME_DOWN);
+            break;
+        };
+
+
         switch (checkButtons()) {
           case 1:
-            mode = 1;
+            mode = 1;  //reserved for mode switching
             break;
           case 2:
-            Keyboard.write(KEY_B);
+            //reserved for micro-mode switching
             break;
           case 3:
-            Keyboard.write(KEY_C);
+            Consumer.write(CONSUMER_SLEEP);
             break;
           case 4:
-            Keyboard.write(KEY_D);
+            Consumer.write(CONSUMER_POWER);
             break;
           case 5:
             Keyboard.write(KEY_E);
@@ -136,6 +147,9 @@ void loop() {
           case 8:
             Keyboard.write(KEY_H);
             break;
+          case 9:
+            Consumer.write(MEDIA_PLAY_PAUSE);
+            break;
         }
 
         checkIfUsbDeviceIsAsleep();
@@ -144,27 +158,25 @@ void loop() {
   }
 }
 
-void checkEncoderPosition() {
+int checkEncoderPosition() {
   currentStateClk = digitalRead(encoderClk);
   if (currentStateClk != lastStateClk) {
     if (digitalRead(encoderD) != currentStateClk) {
-      counter++;
+     
+      lastStateClk = currentStateClk;
+      return 1;
+
     } else {
-      counter--;
+      
+      lastStateClk = currentStateClk;
+      return -1;
     }
-    Serial.print("Position: ");
-    Serial.println(counter);
   }
-  lastStateClk = currentStateClk;
+  return 0;
 }
 
 
 int checkButtons() {
-  //encoder button
-  if (digitalRead(encoderSW) == LOW && millis() - lastButtonPress > 200) {
-    Serial.println("encoder Button Pressed");
-    lastButtonPress = millis();
-  }
 
   for (int i = 1; i <= 8; i++) {
     int buttonPin = (i == 1) ? button_1 : (i == 2) ? button_2
@@ -182,6 +194,14 @@ int checkButtons() {
       return i;
     }
   }
+
+  //encoder button
+  if (digitalRead(encoderSW) == LOW && millis() - lastButtonPress > 200) {
+    Serial.println("encoder Button Pressed");
+    lastButtonPress = millis();
+    return 9;
+  }
+
   return 0;
 }
 
