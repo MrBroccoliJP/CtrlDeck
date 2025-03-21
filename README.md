@@ -41,7 +41,7 @@ A sleek Arduino-powered media control module with a rotary encoder and 8 customi
 
 
 #### 🎯 Shortcut Examples  
-- 🖱️ **Button 5**: Switch Audio Output devices *(Requires [SoundSwitch](https://github.com/Belphemur/SoundSwitch)* (`Ctrl + Tab`).  
+- 🖱️ **Button 5**: Switch Audio Output devices *(Requires [SoundSwitch](https://github.com/Belphemur/SoundSwitch))* (`Ctrl + Tab`).  
 - 🎨 **Button 6**: Open terminal (`Ctrl + Alt + T`).  
 - **Button 7 & 8**: *(Work in progress)*  
 
