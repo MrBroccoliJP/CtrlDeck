@@ -75,10 +75,10 @@ A sleek Arduino-powered media control module with a rotary encoder and 8 customi
 
 ## ⚖️ License
 
-CtrlDeck - Media & Shortcut control module 
-Copyright (c) 2025 João Fernandes
+CtrlDeck - Media & Shortcut control module  
+Copyright (c) 2025 João Fernandes  
 This work is licensed under the Creative Commons Attribution-NonCommercial 4.0 International License.  
-To view a copy of this license, visit: 
+To view a copy of this license, visit:  
 [http://creativecommons.org/licenses/by-nc/4.0/](http://creativecommons.org/licenses/by-nc/4.0/)  
 
 ---
