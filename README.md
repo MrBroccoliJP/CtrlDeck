@@ -38,17 +38,22 @@ A sleek Arduino-powered media control module with a rotary encoder and 8 customi
 ## 🎛️ Usage
 
 ### 🔧 Programming Mode (used to stop recording keypresses or as a panic mode)
-1. Press and hold Button 1 while powering up the device until the status led blinks red (click the reset button or unplug and plug the device)
-2. Press Button 2 to cancel programming mode.
+1 - While powering up the device, press and hold Button 1 until the status LED flashes red. (You can achieve this by clicking the reset button or disconnecting and reconnecting the device.)  
+2 - To exit programming mode, simply press Button 2.  
 
 ### 🔊 Media Control
 - Turn the rotary encoder to increase/decrease volume.
 - Press customizable buttons to trigger specific shortcuts.
 
-### 💥 Micro-Mode
-Activate Micro-Mode for advanced functionality:
-1. Press Button 2 to enable Micro-Mode. (stays active for 5 seconds, and adds 2.5seconds to the timer when you use the rotary encoder, click Button 2 to cancel)
-2. Use the rotary encoder to navigate through text letter by letter (e.g., forward/backward).
+### 🔧 Micro-Mode
+
+1. **Activate Micro-Mode** by pressing **Button 2**:  
+   - The status LED flashes while Micro-Mode is enabled.  
+   - Micro-Mode stays active for 5 seconds and extends by 2.5 seconds each time the rotary encoder is used.  
+   - To cancel Micro-Mode, press **Button 2** again.
+
+2. Use the rotary encoder to navigate through text letter by letter (e.g., forward or backward).
+
 
 ### 💤 Power Management
 - Press Button 3 to put the system to sleep.
@@ -72,8 +77,9 @@ Activate Micro-Mode for advanced functionality:
 
 CtrlDeck - Media & Shortcut control module 
 Copyright (c) 2025 João Fernandes
-This work is licensed under the Creative Commons Attribution-NonCommercial 4.0 International License. 
-To view a copy of this license, visit: * http://creativecommons.org/licenses/by-nc/4.0/
+This work is licensed under the Creative Commons Attribution-NonCommercial 4.0 International License.  
+To view a copy of this license, visit: 
+[http://creativecommons.org/licenses/by-nc/4.0/](http://creativecommons.org/licenses/by-nc/4.0/)  
 
 ---
 
