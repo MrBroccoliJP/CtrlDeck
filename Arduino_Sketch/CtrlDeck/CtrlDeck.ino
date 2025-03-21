@@ -9,7 +9,7 @@
 
 //useful documentation: https://docs.arduino.cc/language-reference/en/functions/usb/Keyboard/keyboardModifiers/
 
-const char version = 'V0.6.1';
+const char version = 'V0.7';
 
 #define encoderClk 16
 #define encoderD 14
