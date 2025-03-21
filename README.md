@@ -35,10 +35,10 @@ A sleek Arduino-powered media control module with a rotary encoder and 8 customi
 2. Use the rotary encoder to **navigate through text letter by letter** (e.g., forward or backward).
 
 
-#### 💤 Power Management  
+#### 💤 Power Management  *(OS independent)*
 - Press **Button 3** to put the system to sleep.  
 - Press **Button 4** to power down the system.
-
+*These should™ be OS independent. From my testing they have worked on Windows, Ubunto & linux Mint.*
 
 #### 🎯 Shortcut Examples  
 - 🔈/🎧 **Button 5**: Switch Audio Output devices *(Requires [SoundSwitch](https://github.com/Belphemur/SoundSwitch))* (`Ctrl + Tab`).  
