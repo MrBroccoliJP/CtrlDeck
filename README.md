@@ -81,7 +81,11 @@ The **Modes** and **Micro-Modes** allow for flexible, user-configurable setups:
   - A mode for **gaming**, and  
   - A mode for **photo editing** *(e.g., Photoshop & Illustrator)*.  
 
-- **Micro-Modes**: These allow temporary access to a different key combination without leaving the current mode. This is especially useful for quick tasks requiring alternate keys while maintaining the active mode configuration.
+- **Micro-Modes**: These allow temporary access to a different key combination without leaving the current mode.
+  - When activated, Micro-Mode remains active for 5 seconds.
+  - If the user clicks a button that is mapped specifically for a Micro-Mode, an additional 5 seconds is added to the timer.
+  - Once the timer runs out, the system seamlessly returns to the normal mode.
+  - This feature is especially useful for quick tasks requiring alternate keys momentarily while maintaining the active mode configuration.
 
 
 ## 🖼️ 3D Assembly
