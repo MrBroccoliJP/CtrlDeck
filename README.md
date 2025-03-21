@@ -37,7 +37,7 @@ A sleek Arduino-powered media control module with a rotary encoder and 8 customi
 
 #### 💤 Power Management  *(OS independent)*
 - Press **Button 3** to put the system to sleep.  
-- Press **Button 4** to power down the system.
+- Press **Button 4** to power down the system.  
 *These should™ be OS independent. From my testing they have worked on Windows, Ubunto & linux Mint.*
 
 #### 🎯 Shortcut Examples  
