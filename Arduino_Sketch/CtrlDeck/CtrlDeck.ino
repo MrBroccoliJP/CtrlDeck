@@ -7,27 +7,41 @@
  * http://creativecommons.org/licenses/by-nc/4.0/
  */
 
-//useful documentation: https://docs.arduino.cc/language-reference/en/functions/usb/Keyboard/keyboardModifiers/
+//useful documentation:
+// https://docs.arduino.cc/language-reference/en/functions/usb/Keyboard/keyboardModifiers/
+// https://github.com/NicoHood/HID
 
 const char version = 'V0.8';
 
-#define encoderClk 16
-#define encoderD 14
-#define encoderSW 15
+/**
+ * @brief Encoder pin definitions
+ */
+#define ENCODER_CLK_PIN 16
+#define ENCODER_D_PIN 14
+#define ENCODER_SW_PIN 15
 
-#define LED_R 21
-#define LED_G 20
-#define LED_B 19
+/**
+ * @brief LED pin definitions
+ */
+#define LED_R_PIN 21
+#define LED_G_PIN 20
+#define LED_B_PIN 19
 
-#define button_1_pin 6
-#define button_2_pin 3
-#define button_3_pin 2
-#define button_4_pin 8
-#define button_5_pin 4
-#define button_6_pin 5
-#define button_7_pin 7
-#define button_8_pin 9
+/**
+ * @brief Button pin definitions
+ */
+#define BUTTON_1_PIN 6
+#define BUTTON_2_PIN 3
+#define BUTTON_3_PIN 2
+#define BUTTON_4_PIN 8
+#define BUTTON_5_PIN 4
+#define BUTTON_6_PIN 5
+#define BUTTON_7_PIN 7
+#define BUTTON_8_PIN 9
 
+/**
+ * @brief Button pin array for convenience
+ */
 int buttonPinArray[9] = { button_1_pin, button_2_pin, button_3_pin, button_4_pin, button_5_pin, button_6_pin, button_7_pin, button_8_pin, encoderSW };
 
 #include "HID-Project.h"
@@ -103,20 +117,21 @@ void loop() {
     {
       while (mode != 1) {
 
-        if (microMode == 1) {
+        if (microMode == 1 && millis() < targetTime) {
           if (millis() - lastToggleTime >= 125) {
             if (toggle) {
               ledControl(1, 0, 1);
               toggle = 0;
+              lastToggleTime = millis();
             } else {
               ledControl(1, 1, 1);
               toggle = 1;
+              lastToggleTime = millis();
             }
-            lastToggleTime = millis();
           }
-          else{
-            microMode = 0;
-          }
+        } else {
+          microMode = 0;
+          targetTime = 0;
         }
 
         switch (checkEncoderPosition()) {
@@ -124,7 +139,7 @@ void loop() {
             if (microMode == 1) {
               Keyboard.press(KEY_RIGHT);
               Keyboard.releaseAll();
-              targetTime+=2500;
+              targetTime = millis() + 5000;
             } else {
               Consumer.write(MEDIA_VOLUME_UP);
             }
@@ -133,7 +148,7 @@ void loop() {
             if (microMode == 1) {
               Keyboard.press(KEY_LEFT);
               Keyboard.releaseAll();
-              targetTime+=2500;
+              targetTime = millis() + 5000;
             } else {
               Consumer.write(MEDIA_VOLUME_DOWN);
             }
@@ -188,28 +203,34 @@ void loop() {
   }
 }
 
+/**
+ * @brief Check encoder position
+ *
+ * @return int Encoder position (1 or -1) if rotated, otherwise 0
+ */
 int checkEncoderPosition() {
-  currentStateClk = digitalRead(encoderClk);
-  if (currentStateClk != lastStateClk) {
+  currentStateClk = digitalRead(encoderClk);  //Read current encoder state
+  if (currentStateClk != lastStateClk) {      // Compare with previous state to detect rotation
     if (digitalRead(encoderD) != currentStateClk) {
-      //Serial.println("rotated+1");
       lastStateClk = currentStateClk;
       return 1;
-
     } else {
-
       lastStateClk = currentStateClk;
-      //Serial.println("rotated-1");
       return -1;
     }
   }
   return 0;
 }
 
-
+/**
+ * @brief Check button states
+ *
+ * @return int Button number pressed (1-9) if a button is pressed,
+ *         otherwise 0.
+ */
 int checkButtons() {
 
-  for (int i = 0; i < 8; i++) {
+  for (int i = 0; i < 8; i++) {  //Iterate over all buttons and check for presses
     if (digitalRead(buttonPinArray[i]) == LOW && millis() - lastButtonPress > 200) {
       //Serial.print("Button");
       //Serial.print(i);
@@ -218,26 +239,21 @@ int checkButtons() {
       return i + 1;
     }
   }
-
-  //encoder button
-  // if (digitalRead(encoderSW) == LOW && millis() - lastButtonPress > 200) {
-  //   //Serial.println("encoder Button Pressed");
-  //   lastButtonPress = millis();
-  //   return 9;
-  // }
-
   return 0;
 }
 
+/**
+ * @brief Check is USB device is assleep
+ */
 void checkIfUsbDeviceIsAsleep() {
   if (USBDevice.isSuspended() == true) {
-    wakeFromSleep = true;
-    digitalWrite(LED_R, LOW);
+    wakeFromSleep = true;      //set flag to indicate the device went to sleep
+    digitalWrite(LED_R, LOW);  //turn off LED
     digitalWrite(LED_G, LOW);
     digitalWrite(LED_B, LOW);
 
     while (USBDevice.isSuspended() == true) {
-      LowPower.idle(SLEEP_4S, ADC_OFF, TIMER4_OFF, TIMER3_OFF, TIMER1_OFF,
+      LowPower.idle(SLEEP_4S, ADC_OFF, TIMER4_OFF, TIMER3_OFF, TIMER1_OFF,  //set arduino to the sleep state and check every 4sec if the device woke up
                     TIMER0_OFF, SPI_OFF, USART1_OFF, TWI_OFF, USB_ON);
     }
 
@@ -245,7 +261,9 @@ void checkIfUsbDeviceIsAsleep() {
   }
 }
 
-
+/**
+ * @brief turn on leds after sleep depending on the mode 
+ */
 void wakeFromSleepToggle() {
   bool r;
   bool g;
@@ -271,6 +289,10 @@ void wakeFromSleepToggle() {
   }
 }
 
+
+/**
+ * @brief Controls the status led depending on the r,g,b values.
+ */
 void ledControl(bool r, bool g, bool b) {
   digitalWrite(LED_R, r);
   digitalWrite(LED_G, g);
