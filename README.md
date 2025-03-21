@@ -5,9 +5,8 @@ A sleek Arduino-powered media control module with a rotary encoder and 8 customi
 ## ✨ Features
 
 - 🔄 **Rotary Encoder**: Adjust media volume or navigate effortlessly.
-- 🎮 **Customizable Buttons**: 8 programmable buttons for your favorite shortcuts or system controls.
-- 💡 **LED Indicators**: RGB LEDs for visual feedback.
-- ⚡ **Micro-Mode**: Enhance your operations with quick and precise controls.
+- 🎮 **Customizable Buttons**: 9 programmable buttons for your favorite shortcuts or system controls.
+- 💡 **LED Indicators**: RGB LED for visual feedback.
 - 💤 **Power Management**: Sleep mode and power-down functionality to save energy.
 
 ## 🛠️ Requirements
@@ -22,7 +21,6 @@ A sleek Arduino-powered media control module with a rotary encoder and 8 customi
 1. **Press and hold Button 1** while powering up the device until the status LED flashes red.  
    *(You can achieve this by clicking the reset button or disconnecting and reconnecting the device.)*  
 2. To exit programming mode, simply **press Button 2**.
-
 
 #### 🔊 Media Control  
 - Turn the rotary encoder to **increase or decrease volume**.  
@@ -43,7 +41,7 @@ A sleek Arduino-powered media control module with a rotary encoder and 8 customi
 
 
 #### 🎯 Shortcut Examples  
-- 🖱️ **Button 5**: Switch Audio Output devices *(Requires SoundSwitch)* (`Ctrl + Tab`).  
+- 🖱️ **Button 5**: Switch Audio Output devices *(Requires [SoundSwitch](https://github.com/Belphemur/SoundSwitch)* (`Ctrl + Tab`).  
 - 🎨 **Button 6**: Open terminal (`Ctrl + Alt + T`).  
 - **Button 7 & 8**: *(Work in progress)*  
 
