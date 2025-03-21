@@ -9,7 +9,7 @@
 
 //useful documentation: https://docs.arduino.cc/language-reference/en/functions/usb/Keyboard/keyboardModifiers/
 
-const char version = 'V0.7';
+const char version = 'V0.8';
 
 #define encoderClk 16
 #define encoderD 14
@@ -19,14 +19,16 @@ const char version = 'V0.7';
 #define LED_G 20
 #define LED_B 19
 
-#define button_1 6
-#define button_2 3
-#define button_3 2
-#define button_4 8
-#define button_5 4
-#define button_6 5
-#define button_7 7
-#define button_8 9
+#define button_1_pin 6
+#define button_2_pin 3
+#define button_3_pin 2
+#define button_4_pin 8
+#define button_5_pin 4
+#define button_6_pin 5
+#define button_7_pin 7
+#define button_8_pin 9
+
+int buttonPinArray[9] = { button_1_pin, button_2_pin, button_3_pin, button_4_pin, button_5_pin, button_6_pin, button_7_pin, button_8_pin, encoderSW };
 
 #include "HID-Project.h"
 #include "LowPower.h"
@@ -53,22 +55,22 @@ void setup() {
   pinMode(encoderD, INPUT);
   pinMode(encoderSW, INPUT_PULLUP);
 
-  pinMode(button_1, INPUT_PULLUP);
-  pinMode(button_2, INPUT_PULLUP);
-  pinMode(button_3, INPUT_PULLUP);
-  pinMode(button_4, INPUT_PULLUP);
-  pinMode(button_5, INPUT_PULLUP);
-  pinMode(button_6, INPUT_PULLUP);
-  pinMode(button_7, INPUT_PULLUP);
-  pinMode(button_8, INPUT_PULLUP);
+  pinMode(button_1_pin, INPUT_PULLUP);
+  pinMode(button_2_pin, INPUT_PULLUP);
+  pinMode(button_3_pin, INPUT_PULLUP);
+  pinMode(button_4_pin, INPUT_PULLUP);
+  pinMode(button_5_pin, INPUT_PULLUP);
+  pinMode(button_6_pin, INPUT_PULLUP);
+  pinMode(button_7_pin, INPUT_PULLUP);
+  pinMode(button_8_pin, INPUT_PULLUP);
 
   lastStateClk = digitalRead(encoderClk);
 
   Serial.begin(9600);
 
-  if (digitalRead(button_1) == LOW) {
+  if (digitalRead(button_1_pin) == LOW) {
     Serial.println("Programing mode");
-    while (digitalRead(button_2) == HIGH) {
+    while (digitalRead(button_2_pin) == HIGH) {
       digitalWrite(LED_R, HIGH);
       delay(500);
       digitalWrite(LED_R, LOW);
@@ -101,17 +103,37 @@ void loop() {
     {
       while (mode != 1) {
 
+        if (microMode == 1) {
+          if (millis() - lastToggleTime >= 125) {
+            if (toggle) {
+              ledControl(1, 0, 1);
+              toggle = 0;
+            } else {
+              ledControl(1, 1, 1);
+              toggle = 1;
+            }
+            lastToggleTime = millis();
+          }
+          else{
+            microMode = 0;
+          }
+        }
+
         switch (checkEncoderPosition()) {
           case 1:
-            if (microMode = 1) {
-              
+            if (microMode == 1) {
+              Keyboard.press(KEY_RIGHT);
+              Keyboard.releaseAll();
+              targetTime+=2500;
             } else {
               Consumer.write(MEDIA_VOLUME_UP);
             }
             break;
           case -1:
-            if (microMode = 1) {
-
+            if (microMode == 1) {
+              Keyboard.press(KEY_LEFT);
+              Keyboard.releaseAll();
+              targetTime+=2500;
             } else {
               Consumer.write(MEDIA_VOLUME_DOWN);
             }
@@ -121,24 +143,14 @@ void loop() {
 
         switch (checkButtons()) {
           case 1:
+            microMode = 0;
+            targetTime = 0;
             mode = 1;  //reserved for mode switching
             break;
           case 2:
             //reserved for micro-mode switching
             targetTime = millis() + 5000;
-            while (millis() < targetTime) {
-
-              if (millis() - lastToggleTime >= 125) {
-                if (toggle) {
-                  ledControl(1, 0, 1);
-                  toggle = 0;
-                } else {
-                  ledControl(1, 1, 1);
-                  toggle = 1;
-                }
-                lastToggleTime = millis();
-              }
-            }
+            microMode = 1;
             break;
           case 3:
             System.write(SYSTEM_SLEEP);
@@ -180,13 +192,14 @@ int checkEncoderPosition() {
   currentStateClk = digitalRead(encoderClk);
   if (currentStateClk != lastStateClk) {
     if (digitalRead(encoderD) != currentStateClk) {
-
+      //Serial.println("rotated+1");
       lastStateClk = currentStateClk;
       return 1;
 
     } else {
 
       lastStateClk = currentStateClk;
+      //Serial.println("rotated-1");
       return -1;
     }
   }
@@ -196,29 +209,22 @@ int checkEncoderPosition() {
 
 int checkButtons() {
 
-  for (int i = 1; i <= 8; i++) {
-    int buttonPin = (i == 1) ? button_1 : (i == 2) ? button_2
-                                        : (i == 3) ? button_3
-                                        : (i == 4) ? button_4
-                                        : (i == 5) ? button_5
-                                        : (i == 6) ? button_6
-                                        : (i == 7) ? button_7
-                                                   : button_8;
-    if (digitalRead(buttonPin) == LOW && millis() - lastButtonPress > 200) {
+  for (int i = 0; i < 8; i++) {
+    if (digitalRead(buttonPinArray[i]) == LOW && millis() - lastButtonPress > 200) {
       //Serial.print("Button");
       //Serial.print(i);
       //Serial.println(" Pressed");
       lastButtonPress = millis();
-      return i;
+      return i + 1;
     }
   }
 
   //encoder button
-  if (digitalRead(encoderSW) == LOW && millis() - lastButtonPress > 200) {
-    //Serial.println("encoder Button Pressed");
-    lastButtonPress = millis();
-    return 9;
-  }
+  // if (digitalRead(encoderSW) == LOW && millis() - lastButtonPress > 200) {
+  //   //Serial.println("encoder Button Pressed");
+  //   lastButtonPress = millis();
+  //   return 9;
+  // }
 
   return 0;
 }
