@@ -2,7 +2,7 @@
 
 A sleek Arduino-powered media control module with a rotary encoder and 8 customizable buttons for seamless audio and shortcut management.
 
-*This project repository is a work-in-progress*
+*This project repository is a work-in-progress*  
 To-Do:  
 Add 3D models & files.  
 Add wiring section.  
