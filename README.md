@@ -6,6 +6,7 @@ A sleek Arduino-powered media control module with a rotary encoder and 8 customi
 To-Do:  
 Add 3D models & files.  
 Add wiring section.  
+Add photos
 
 ## ✨ Features
 
