@@ -74,26 +74,33 @@ The **Modes** and **Micro-Modes** allow for flexible, user-configurable setups:
 ##### (Placeholder for assembly instructions)
 
 ## 🧩 Wiring Diagram
+
+<figure>
+    <img src="Images/WiringDiagram.png" alt="Wiring Diagram" width="1000"/>
+    <figcaption>Wiring Diagram</figcaption>
+</figure>
+
 ### 📌 Pin Configuration
 
-| Component        | Pin Number |
-|------------------|------------|
-| Rotary Encoder A | 16         |
-| Rotary Encoder B | 14         |
-| Encoder Switch   | 15         |
-| RGB LED Red      | 21         |
-| RGB LED Green    | 20         |
-| RGB LED Blue     | 19         |
-| Button 1         | 6          |
-| Button 2         | 3          |
-| Button 3         | 2          |
-| Button 4         | 8          |
-| Button 5         | 4          |
-| Button 6         | 5          |
-| Button 7         | 7          |
-| Button 8         | 9          |
+| Component          | Pin Number |
+|--------------------|------------|
+| Rotary Encoder CLK | 16         |
+| Rotary Encoder DT  | 14         |
+| Encoder Switch     | 15         |
+| RGB LED Red        | 21         |
+| RGB LED Green      | 20         |
+| RGB LED Blue       | 19         |
+| Button 1           | 6          |
+| Button 2           | 3          |
+| Button 3           | 2          |
+| Button 4           | 8          |
+| Button 5           | 4          |
+| Button 6           | 5          |
+| Button 7           | 7          |
+| Button 8           | 9          |  
 
-##### (Placeholder for wiring section)
+<br>
+
 
 ## ⚖️ License
 

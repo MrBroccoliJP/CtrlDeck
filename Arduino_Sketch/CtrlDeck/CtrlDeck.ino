@@ -41,7 +41,7 @@ const char version = 'V0.8';
  */
 int buttonPinArray[] = { BUTTON_1_PIN, BUTTON_2_PIN, BUTTON_3_PIN,
                          BUTTON_4_PIN, BUTTON_5_PIN, BUTTON_6_PIN,
-                         BUTTON_7_PIN, BUTTON_8_PIN };
+                         BUTTON_7_PIN, BUTTON_8_PIN, ENCODER_SW_PIN };
 
 
 #include "HID-Project.h"
@@ -233,8 +233,8 @@ int checkEncoderPosition() {
  */
 int checkButtons() {
 
-  for (int i = 0; i < 8; i++) {
-    if (digitalRead(buttonPinArray[i]) == LOW && millis() - lastButtonPress > 200) {
+  for (int i = 0; i < 9; i++) {
+    if (digitalRead(buttonPinArray[i]) == LOW && millis() - lastButtonPress > 300) {
       //Serial.print("Button");
       //Serial.print(i);
       //Serial.println(" Pressed");
