@@ -2,11 +2,18 @@
 
 A sleek Arduino-powered media control module with a rotary encoder and 8 customizable buttons for seamless audio and shortcut management.
 
-*This project repository is a work-in-progress*  
-To-Do:  
-Add 3D models & files.  
-Add wiring section.  
-Add photos
+
+<div style="display: flex; justify-content: center; gap: 10px;">
+    <figure>
+        <img src="Images/CtrlDeck_Photo2.jpg" alt="CtrlDeck" width="500"/>
+        <figcaption>CtrlDeck</figcaption>
+    </figure>
+    <figure>
+        <img src="Images/CtrlDeck_Photo.jpg" alt="CtrlDeck" width="500"/>
+        <figcaption>CtrlDeck</figcaption>
+    </figure>
+</div>
+
 
 ## ✨ Features
 
@@ -71,7 +78,26 @@ The **Modes** and **Micro-Modes** allow for flexible, user-configurable setups:
 
 ## 🖼️ 3D Assembly
 
-##### (Placeholder for assembly instructions)
+<figure>
+    <img src="Images/CtrlDeck_Exploded_view.png" alt="Wiring Diagram" width="1000"/>
+    <figcaption>CtrlDeck exploded view</figcaption>
+</figure>
+
+The 3D assembly consists of four main components: the main PCB, a rotary encoder, and a three-part shell, which includes the top shell, bottom shell, and LED diffuser.
+
+The LED diffuser is glued to the top shell. If you're replicating this project, print the diffuser using a translucent material to allow the LEDs to shine through.
+
+The main PCB is secured to the top shell using 2mm screws. The rotary encoder fits snugly into the top shell and is held in place by its own mounting screw. The button tops have to be clicked in before mounting the main PCB to the top shell.
+
+The reset button sits in a recessed slot within the top shell and is secured with a holder using two 2mm screws.
+
+A separate cable relief component fits onto the cable. In this build, a custom cable was used, but if you're using a pre-made USB cable, you can modify this part to fit your design.
+
+#### 3D Files:
+There are two folders: "Complete_Model", which contains STEP files that can be modified to fit your needs, and "STL", which includes files ready for 3D printing the shell.
+
+During assembly, I noticed some manual errors when mounting the buttons to the perfboard. As a result, I had to adjust the holes in the top shell to accommodate these variations (with tolerances of ±0.5mm in any direction). This may not be necessary for your project.
+
 
 ## 🧩 Wiring Diagram
 
@@ -100,6 +126,12 @@ The **Modes** and **Micro-Modes** allow for flexible, user-configurable setups:
 | Button 8           | 9          |  
 
 <br>
+I layed out my main pcb like this:
+
+<figure>
+    <img src="Images/PCB_Layout.png" alt="Board Layout Image" width="1000"/>
+    <figcaption>Main Board Layout Image</figcaption>
+</figure>
 
 
 ## ⚖️ License
