@@ -150,14 +150,27 @@ I layed out my main pcb like this:
 
 ## ⚖️ License
 
-CtrlDeck - Media & Shortcut control module  
-Copyright (c) 2025 João Fernandes  
-This work is licensed under the Creative Commons Attribution-NonCommercial 4.0 International License  
+This project is licensed under the **Creative Commons Attribution-NonCommercial 4.0 International License (CC BY-NC 4.0)**
+Creative Commons Attribution-NonCommercial 4.0 International License (CC BY-NC 4.0)
+
+CtrlDeck © 2025 by João Fernandes is licensed under Creative Commons Attribution-NonCommercial 4.0 International 
 
 See the [LICENSE](LICENSE.txt) file for details  
 Or visit:  
 [http://creativecommons.org/licenses/by-nc/4.0/](http://creativecommons.org/licenses/by-nc/4.0/)  
 
+or send a letter to:
+
+    Creative Commons
+    PO Box 1866  
+    Mountain View,    
+    CA 94042  
+    USA  
+
+In summary (not a substitute for the full license):
+- You are free to share and adapt the material for non-commercial purposes
+- You must give appropriate credit and indicate if changes were made
+- You may not use the material for commercial purposes without specific permission
 
 
 ### 📚 Useful Documentation
