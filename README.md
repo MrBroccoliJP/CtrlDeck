@@ -3,16 +3,9 @@
 A sleek Arduino-powered media control module with a rotary encoder and 8 customizable buttons for seamless audio and shortcut management.
 
 
-<div style="display: flex; justify-content: center; gap: 10px;">
-    <figure>
-        <img src="Images/CtrlDeck_Photo2.jpg" alt="CtrlDeck" width="200"/>
-        <figcaption>CtrlDeck</figcaption>
-    </figure>
-    <figure>
-        <img src="Images/CtrlDeck_Photo.jpg" alt="CtrlDeck" width="200"/>
-        <figcaption>CtrlDeck</figcaption>
-    </figure>
-</div>
+| ![](Images/CtrlDeck_Photo2.jpg) | ![](Images/CtrlDeck_Photo.jpg) |
+| ------------------------------- | ----------------------------- |
+| CtrlDeck                        | CtrlDeck                      |
 
 
 ## ✨ Features
@@ -79,7 +72,7 @@ The **Modes** and **Micro-Modes** allow for flexible, user-configurable setups:
 ## 🖼️ 3D Assembly
 
 <figure>
-    <img src="Images/CtrlDeck_Exploded_view.png" alt="Wiring Diagram" width="200"/>
+    <img src="Images/CtrlDeck_Exploded_view.png" alt="Wiring Diagram" width="500"/>
     <figcaption>CtrlDeck exploded view</figcaption>
 </figure>
 
@@ -102,7 +95,7 @@ During assembly, I noticed some manual errors when mounting the buttons to the p
 ## 🧩 Wiring Diagram
 
 <figure>
-    <img src="Images/WiringDiagram.png" alt="Wiring Diagram" width="300"/>
+    <img src="Images/WiringDiagram.png" alt="Wiring Diagram" width="500"/>
     <figcaption>Wiring Diagram</figcaption>
 </figure>
 
@@ -129,7 +122,7 @@ During assembly, I noticed some manual errors when mounting the buttons to the p
 I layed out my main pcb like this:
 
 <figure>
-    <img src="Images/PCB_Layout.png" alt="Board Layout Image" width="200"/>
+    <img src="Images/PCB_Layout.png" alt="Board Layout Image" width="300"/>
     <figcaption>Main Board Layout Image</figcaption>
 </figure>
 
