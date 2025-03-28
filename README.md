@@ -5,11 +5,11 @@ A sleek Arduino-powered media control module with a rotary encoder and 8 customi
 
 <div style="display: flex; justify-content: center; gap: 10px;">
     <figure>
-        <img src="Images/CtrlDeck_Photo2.jpg" alt="CtrlDeck" width="500"/>
+        <img src="Images/CtrlDeck_Photo2.jpg" alt="CtrlDeck" width="200"/>
         <figcaption>CtrlDeck</figcaption>
     </figure>
     <figure>
-        <img src="Images/CtrlDeck_Photo.jpg" alt="CtrlDeck" width="500"/>
+        <img src="Images/CtrlDeck_Photo.jpg" alt="CtrlDeck" width="200"/>
         <figcaption>CtrlDeck</figcaption>
     </figure>
 </div>
@@ -79,7 +79,7 @@ The **Modes** and **Micro-Modes** allow for flexible, user-configurable setups:
 ## 🖼️ 3D Assembly
 
 <figure>
-    <img src="Images/CtrlDeck_Exploded_view.png" alt="Wiring Diagram" width="1000"/>
+    <img src="Images/CtrlDeck_Exploded_view.png" alt="Wiring Diagram" width="200"/>
     <figcaption>CtrlDeck exploded view</figcaption>
 </figure>
 
@@ -102,7 +102,7 @@ During assembly, I noticed some manual errors when mounting the buttons to the p
 ## 🧩 Wiring Diagram
 
 <figure>
-    <img src="Images/WiringDiagram.png" alt="Wiring Diagram" width="1000"/>
+    <img src="Images/WiringDiagram.png" alt="Wiring Diagram" width="300"/>
     <figcaption>Wiring Diagram</figcaption>
 </figure>
 
@@ -129,9 +129,30 @@ During assembly, I noticed some manual errors when mounting the buttons to the p
 I layed out my main pcb like this:
 
 <figure>
-    <img src="Images/PCB_Layout.png" alt="Board Layout Image" width="1000"/>
+    <img src="Images/PCB_Layout.png" alt="Board Layout Image" width="200"/>
     <figcaption>Main Board Layout Image</figcaption>
 </figure>
+
+## Key Connections
+
+### RGB LED
+- Connect the **Red, Green, and Blue** pins to GPIOs via resistors (e.g., **220Ω**).  
+- Common cathode to **GND** or common anode to **VCC**.
+
+### Rotary Encoder
+- **CLK, DT, and SW** → GPIO pins.  
+- **VCC** and **GND** → Power connections.
+
+### Reset Button
+- Connect between **RST** and **GND**.
+
+### Push Buttons (BTN1 - BTN8)
+- One side to **GPIO**, the other to **GND**.  
+- Internal pull-ups can be used if needed.
+
+## Notes
+- ✅ Double-check polarity and connections before powering up.  
+- ✅ Ensure appropriate resistor values for LEDs.  
 
 
 ## ⚖️ License
