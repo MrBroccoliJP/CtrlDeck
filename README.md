@@ -152,11 +152,13 @@ I layed out my main pcb like this:
 
 CtrlDeck - Media & Shortcut control module  
 Copyright (c) 2025 João Fernandes  
-This work is licensed under the Creative Commons Attribution-NonCommercial 4.0 International License.  
-To view a copy of this license, visit:  
+This work is licensed under the Creative Commons Attribution-NonCommercial 4.0 International License  
+
+See the [LICENSE](LICENSE.txt) file for details  
+Or visit:  
 [http://creativecommons.org/licenses/by-nc/4.0/](http://creativecommons.org/licenses/by-nc/4.0/)  
 
----
+
 
 ### 📚 Useful Documentation
 - [Arduino Keyboard Modifiers](https://docs.arduino.cc/language-reference/en/functions/usb/Keyboard/keyboardModifiers/)
