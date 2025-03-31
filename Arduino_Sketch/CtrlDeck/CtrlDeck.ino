@@ -9,7 +9,7 @@
 
 //useful documentation: https://docs.arduino.cc/language-reference/en/functions/usb/Keyboard/keyboardModifiers/
 
-const char version = 'V0.8';
+const char version = 'V0.8.1';
 /**
  * @brief Encoder pin definitions
  */
@@ -131,6 +131,7 @@ void loop() {
         } else {
           targetTime = 0;
           microMode = 0;
+          ledControl(1, 1, 1);
         }
 
         switch (checkEncoderPosition()) {
@@ -163,8 +164,15 @@ void loop() {
             break;
           case 2:
             //reserved for micro-mode switching
-            targetTime = millis() + 5000;
-            microMode = 1;
+            if (microMode == 1) {
+              microMode = 0;
+              targetTime = 0;
+              ledControl(1, 1, 1);
+            } else {
+              targetTime = millis() + 5000;
+              microMode = 1;
+            }
+
             break;
           case 3:
             System.write(SYSTEM_SLEEP);
